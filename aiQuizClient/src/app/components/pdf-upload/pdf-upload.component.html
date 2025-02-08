@@ -1,0 +1,33 @@
+<div class="upload-container">
+  <h2>AI Quiz Generator</h2>
+  <div class="upload-box">
+    <input 
+      type="file" 
+      (change)="onFileSelected($event)" 
+      accept=".pdf"
+      id="pdf-upload"
+      hidden
+    >
+    <label for="pdf-upload" class="upload-label">
+      <i class="fas fa-cloud-upload-alt"></i>
+      <span>Glissez votre PDF ici ou cliquez pour sélectionner</span>
+    </label>
+    <p *ngIf="selectedFile" class="file-selected">
+      <i class="fas fa-file-pdf"></i>
+      Fichier sélectionné: {{ selectedFile.name }}
+    </p>
+    <button 
+      [disabled]="!selectedFile" 
+      (click)="onUpload()"
+      class="upload-button"
+    >
+      <i class="fas fa-magic"></i> Générer le Quiz
+    </button>
+  </div>
+</div>
+
+<app-loading 
+  *ngIf="isLoading" 
+  [progress]="progress"
+  message="Préparation de votre quiz">
+</app-loading> 

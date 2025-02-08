@@ -1,0 +1,35 @@
+<div class="loading-container">
+  <div class="loading-content">
+    <div class="brain-container">
+      <i class="fas fa-file-pdf pdf-icon left"></i>
+      <div class="brain">
+        <div class="synapses"></div>
+        <div class="synapse-lines">
+          <div class="synapse-line"></div>
+          <div class="synapse-line"></div>
+          <div class="synapse-line"></div>
+        </div>
+      </div>
+      <i class="fas fa-file-pdf pdf-icon right"></i>
+      <div class="scan-line"></div>
+    </div>
+    
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="progress">
+          <div class="progress-glow"></div>
+        </div>
+      </div>
+      <div class="progress-text">{{ progress }}%</div>
+    </div>
+
+    <div class="message-container">
+      <p class="main-message">{{ message }}</p>
+      <p class="sub-message">{{ getCurrentMessage() }}</p>
+    </div>
+
+    <div class="loading-particles">
+      <div class="particle" *ngFor="let i of [1,2,3,4,5]"></div>
+    </div>
+  </div>
+</div> 

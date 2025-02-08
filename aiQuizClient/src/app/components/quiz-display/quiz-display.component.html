@@ -1,0 +1,119 @@
+<div class="quiz-container">
+  <div class="quiz-header">
+    <h2>Quiz Généré</h2>
+    <div class="tabs">
+      <button [class.active]="activeTab === 'qcm'" (click)="activeTab = 'qcm'">QCM</button>
+      <button [class.active]="activeTab === 'oui_non'" (click)="activeTab = 'oui_non'">Oui/Non</button>
+      <button [class.active]="activeTab === 'reponse_courte'" (click)="activeTab = 'reponse_courte'">Réponse Courte</button>
+    </div>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" [style.width.%]="progress">
+      <div class="progress-text">Question {{currentQuestionIndex + 1}} / {{totalQuestions}}</div>
+    </div>
+  </div>
+
+  <div class="question-container" [class.fade-in]="showQuestion">
+    <div class="question-card" *ngIf="getCurrentQuestion() as question">
+      <div class="question-header">
+        <span class="question-number">Question {{question.id}}</span>
+        <span class="result-indicator" *ngIf="showAnswers">
+          <i class="fas" [class.fa-check]="isCorrect(activeTab, question.id)" 
+             [class.fa-times]="!isCorrect(activeTab, question.id)"></i>
+        </span>
+      </div>
+
+      <p class="question-text">{{question.question}}</p>
+
+      <!-- QCM Options -->
+      <div class="options" *ngIf="activeTab === 'qcm'">
+        <div class="option" *ngFor="let option of question.options">
+          <input type="radio" 
+                 [id]="'qcm_' + question.id + '_' + option"
+                 [name]="'qcm_' + question.id"
+                 [value]="option"
+                 [disabled]="showAnswers"
+                 (change)="setAnswer('qcm', question.id, option)"
+                 [checked]="userAnswers.get('qcm_' + question.id) === option">
+          <label [for]="'qcm_' + question.id + '_' + option"
+                 [class.correct]="showAnswers && option === question.answer"
+                 [class.incorrect]="showAnswers && option === userAnswers.get('qcm_' + question.id) && option !== question.answer">
+            {{option}}
+          </label>
+        </div>
+      </div>
+
+      <!-- Oui/Non Options -->
+      <div class="options" *ngIf="activeTab === 'oui_non'">
+        <div class="option">
+          <input type="radio" 
+                 [id]="'oui_non_' + question.id + '_oui'"
+                 [name]="'oui_non_' + question.id"
+                 value="Oui"
+                 [disabled]="showAnswers"
+                 (change)="setAnswer('oui_non', question.id, 'Oui')"
+                 [checked]="userAnswers.get('oui_non_' + question.id) === 'Oui'">
+          <label [for]="'oui_non_' + question.id + '_oui'">Oui</label>
+        </div>
+        <div class="option">
+          <input type="radio" 
+                 [id]="'oui_non_' + question.id + '_non'"
+                 [name]="'oui_non_' + question.id"
+                 value="Non"
+                 [disabled]="showAnswers"
+                 (change)="setAnswer('oui_non', question.id, 'Non')"
+                 [checked]="userAnswers.get('oui_non_' + question.id) === 'Non'">
+          <label [for]="'oui_non_' + question.id + '_non'">Non</label>
+        </div>
+      </div>
+
+     <!-- Réponse Courte Input -->
+      <div class="answer-input" *ngIf="activeTab === 'reponse_courte'">
+        <input type="text" 
+              placeholder="Votre réponse..."
+              [disabled]="showAnswers"
+              (input)="handleInput($event, question.id)"
+              [value]="userAnswers.get('reponse_courte_' + question.id)">
+        <!-- Affichage de la réponse correcte lorsque le quiz est soumis -->
+        <div class="correct-answer" *ngIf="showAnswers">
+          <span>Réponse correcte : </span><strong>{{ question.answer }}</strong>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="navigation-buttons">
+      <button class="nav-btn prev" (click)="previousQuestion()" [disabled]="currentQuestionIndex === 0">
+        <i class="fas fa-arrow-left"></i> Précédent
+      </button>
+      <button class="nav-btn next" (click)="nextQuestion()" 
+              [disabled]="currentQuestionIndex === totalQuestions - 1">
+        Suivant <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="quiz-footer">
+    <div class="score" *ngIf="showAnswers">
+      <h3>Score: {{score.toFixed(1)}}%</h3>
+    </div>
+    <div class="actions">
+      <div class="submit-warning" *ngIf="!allQuestionsAnswered && !showAnswers">
+        Il reste {{ remainingQuestions }} question{{ remainingQuestions > 1 ? 's' : '' }} à répondre
+      </div>
+      <button 
+        class="submit-btn" 
+        (click)="submitQuiz()" 
+        *ngIf="!showAnswers"
+        [disabled]="!allQuestionsAnswered"
+        [title]="!allQuestionsAnswered ? 'Répondez à toutes les questions avant de soumettre' : ''"
+      >
+        Soumettre
+      </button>
+      <button class="reset-btn" (click)="resetQuiz()" *ngIf="showAnswers">
+        Recommencer
+      </button>
+    </div>
+  </div>
+</div> 

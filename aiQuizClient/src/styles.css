@@ -1,0 +1,41 @@
+/* You can add global styles to this file, and also import other style files */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  background: linear-gradient(135deg, #0B1120 0%, #2A4365 50%, #4299E1 100%);
+}
+
+app-root {
+  display: block;
+  min-height: 100vh;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+router-outlet + * {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
