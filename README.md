@@ -1,6 +1,3 @@
-Je vais appliquer les modifications au fichier README.md existant.
-
-```markdown:README.md
 # AI Quiz Generator
 
 Application web permettant de générer automatiquement des questions à partir d'un document PDF en utilisant l'intelligence artificielle. Les questions sont générées sous différents formats (QCM, Oui/Non, Réponse courte) et affichées dans une interface utilisateur interactive.
@@ -17,6 +14,7 @@ Le projet est divisé en deux parties principales :
   - Interface utilisateur moderne et responsive
   - Gestion des différents types de questions
   - Système de notation en temps réel
+  - Adaptation dynamique du style selon le contexte
 
 ### Backend (aiQuizServer)
 - Framework: FastAPI (Python)
@@ -25,6 +23,7 @@ Le projet est divisé en deux parties principales :
   - Génération de questions via IA (Gemini API)
   - API RESTful
   - Traitement asynchrone des requêtes
+  - Analyse contextuelle pour adaptation du style
 
 ## Prérequis
 
